@@ -82,9 +82,9 @@ export default function timePhysics(container: HTMLElement) {
 
     function sizeFor(type: 'h' | 'm' | 's'): number {
       const base = Math.min(p.width, p.height)
-      if (type === 'h') return Math.max(180, base * 0.062)
-      if (type === 'm') return Math.max(70, base * 0.037)
-      return Math.max(40, base * 0.012)
+      if (type === 'h') return base * 0.15
+      if (type === 'm') return base * 0.09
+      return base * 0.04
     }
 
     function makeMatterBody(type: 'h' | 'm' | 's', x: number, y: number, shape: ShapeType, size: number): Matter.Body {
@@ -122,7 +122,7 @@ export default function timePhysics(container: HTMLElement) {
       const shape = rndShape()
       const hue = type === 'h' ? hHue : type === 'm' ? mHue : sHue
       const x = p.random(half + 5, p.width - half - 5)
-      const y = -half - p.random(0, 80)
+      const y = -half - p.random(0, p.height * 0.1)
       const body = makeMatterBody(type, x, y, shape, size)
       Matter.Body.setAngularVelocity(body, p.random(-0.05, 0.05))
       Matter.World.add(engine.world, body)

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-screen h-screen bg-black flex flex-col items-center justify-center gap-4">
+  <div class="relative w-screen h-dvh bg-black flex flex-col items-center justify-center gap-4">
     <div class="size-full overflow-hidden">
       <P5Sketch ref="sketch" :sketch-factory="activeSketch.factory" />
     </div>
