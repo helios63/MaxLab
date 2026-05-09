@@ -82,9 +82,9 @@ export default function timePhysics(container: HTMLElement) {
 
     function sizeFor(type: 'h' | 'm' | 's'): number {
       const base = Math.min(p.width, p.height)
-      if (type === 'h') return base * 0.15
-      if (type === 'm') return base * 0.09
-      return base * 0.04
+      if (type === 'h') return base * 0.24
+      if (type === 'm') return base * 0.12
+      return base * 0.06
     }
 
     function makeMatterBody(type: 'h' | 'm' | 's', x: number, y: number, shape: ShapeType, size: number): Matter.Body {
