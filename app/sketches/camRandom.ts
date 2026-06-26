@@ -185,6 +185,10 @@ export default function camRandom(container: HTMLElement) {
     function spawnBody() {
       if (bodies.length >= MAX_BODIES) {
         Matter.World.remove(engine.world, bodies.shift()!.body)
+        // Wake all sleeping bodies so they react to the removed support
+        for (const cb of bodies) {
+          if (cb.body.isSleeping) Matter.Sleeping.set(cb.body, false)
+        }
       }
 
       const size = p.random(80, Math.min(p.width, p.height) * 0.32)
