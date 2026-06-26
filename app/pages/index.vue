@@ -35,11 +35,11 @@
         <button
           v-for="(s, i) in sketches"
           :key="i"
-          class="px-3 py-1.5 transition-colors"
+          class="px-3 py-1.5 transition-colors rounded-full"
           :class="
             activeIndex === i
               ? 'bg-white text-black'
-              : 'bg-black/60 text-white border border-white/40 hover:bg-white/10'
+              : 'bg-black/60 text-white'
           "
           @click="activeIndex = i; menuOpen = false"
         >
@@ -48,7 +48,7 @@
       </div>
     </Transition>
     <button
-      class="w-8 h-8 flex flex-col justify-center items-center gap-1.5 border border-white/40 hover:border-white transition-colors bg-black/60"
+      class="w-8 h-8 flex flex-col justify-center items-center gap-1.5 transition-colors bg-black/60"
       aria-label="Toggle sketch menu"
       @click="menuOpen = !menuOpen"
     >
@@ -64,6 +64,7 @@
 
 <script setup lang="ts">
 import bouncingSquare from '~/sketches/bouncingSquare'
+import camRandom from '~/sketches/camRandom'
 import timeFlowers from '~/sketches/timeFlowers'
 import timeGrid from '~/sketches/timeGrid'
 import timePhysics from '~/sketches/timePhysics'
@@ -73,6 +74,7 @@ const sketches = [
   { name: 'Time Flowers', factory: timeFlowers },
   { name: 'Time Grid', factory: timeGrid },
   { name: 'Time Physics', factory: timePhysics },
+  { name: 'Cam Random', factory: camRandom },
 ]
 
 const activeIndex = ref(0)
