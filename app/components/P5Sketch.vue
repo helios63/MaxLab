@@ -37,5 +37,18 @@ function setHue(hue: number) {
   p5Instance?.setHue(hue)
 }
 
-defineExpose({ reset, setHue })
+function switchCamera() {
+  p5Instance?.switchCamera()
+}
+
+function screenshot(filename = 'sketch') {
+  const canvas = canvasContainer.value?.querySelector('canvas')
+  if (!canvas) return
+  const link = document.createElement('a')
+  link.download = `${filename}.png`
+  link.href = canvas.toDataURL('image/png')
+  link.click()
+}
+
+defineExpose({ reset, setHue, switchCamera, screenshot })
 </script>

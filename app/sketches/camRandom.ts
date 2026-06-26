@@ -86,6 +86,8 @@ export default function camRandom(container: HTMLElement) {
     const bodies: CamBody[] = []
     let videoEl: HTMLVideoElement | null = null
     let cameraReady = false
+    let mediaStream: MediaStream | null = null
+    let facingMode: 'environment' | 'user' = 'environment'
     let lastCaptureMs = -500 // triggers an immediate spawn on first frame
     const CAPTURE_INTERVAL = 500
     const MAX_BODIES = 28
@@ -101,14 +103,40 @@ export default function camRandom(container: HTMLElement) {
       container.appendChild(videoEl)
 
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 720 } },
         })
-        videoEl.srcObject = stream
+        videoEl.srcObject = mediaStream
         await videoEl.play()
         cameraReady = true
       } catch {
         // Camera denied or unavailable — shapes render with solid-color fallback
+      }
+    }
+
+    async function switchCamera() {
+      const next: 'environment' | 'user' = facingMode === 'environment' ? 'user' : 'environment'
+      cameraReady = false
+      mediaStream?.getTracks().forEach(t => t.stop())
+      if (!videoEl) return
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { exact: next }, width: { ideal: 1280 }, height: { ideal: 720 } },
+        })
+        videoEl.srcObject = mediaStream
+        await videoEl.play()
+        facingMode = next
+        cameraReady = true
+      } catch {
+        // Device doesn't have that camera — restore previous stream
+        try {
+          mediaStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 720 } },
+          })
+          videoEl.srcObject = mediaStream
+          await videoEl.play()
+          cameraReady = true
+        } catch { /* give up */ }
       }
     }
 
@@ -226,6 +254,8 @@ export default function camRandom(container: HTMLElement) {
       setupWalls()
       setupCamera()
     }
+
+    p.switchCamera = () => { switchCamera() }
 
     p.resetDrawings = () => {
       for (const cb of bodies) Matter.World.remove(engine.world, cb.body)
