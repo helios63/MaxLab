@@ -30,6 +30,21 @@
         />
       </label>
     </div>
+
+    <div v-if="id === 'liquid-bubbler'" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-4">
+      <button
+        class="px-6 py-2 bg-white text-black font-mono text-sm hover:bg-gray-200 active:bg-gray-400 transition-colors"
+        @click="sketch?.reset()"
+      >
+        reset
+      </button>
+      <button
+        class="px-6 py-2 bg-white text-black font-mono text-sm hover:bg-gray-200 active:bg-gray-400 transition-colors"
+        @click="sketch?.flip()"
+      >
+        flip
+      </button>
+    </div>
   </div>
 
   <button
@@ -94,7 +109,7 @@ const activeSketch = computed(
 const isMobile = ref(false)
 onMounted(() => { isMobile.value = 'ontouchstart' in window || navigator.maxTouchPoints > 0 })
 
-const sketch = ref<{ reset: () => void; setHue: (h: number) => void; switchCamera: () => void; screenshot: (filename?: string) => void } | null>(null)
+const sketch = ref<{ reset: () => void; setHue: (h: number) => void; switchCamera: () => void; screenshot: (filename?: string) => void; flip: () => void } | null>(null)
 const pickedColor = ref('#4466cc')
 const menuOpen = ref(false)
 

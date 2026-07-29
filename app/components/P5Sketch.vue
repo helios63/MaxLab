@@ -41,6 +41,10 @@ function switchCamera() {
   p5Instance?.switchCamera()
 }
 
+function flip() {
+  p5Instance?.flip()
+}
+
 function screenshot(filename = 'sketch') {
   const canvas = canvasContainer.value?.querySelector('canvas')
   if (!canvas) return
@@ -50,5 +54,5 @@ function screenshot(filename = 'sketch') {
   link.click()
 }
 
-defineExpose({ reset, setHue, switchCamera, screenshot })
+defineExpose({ reset, setHue, switchCamera, screenshot, flip })
 </script>
